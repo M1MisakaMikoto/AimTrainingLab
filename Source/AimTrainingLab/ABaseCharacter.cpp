@@ -13,6 +13,7 @@
 #include "Abilities/GameplayAbilityTypes.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "GameFramework/CharacterMovementComponent.h"
 
 // Sets default values
 AABaseCharacter::AABaseCharacter()
@@ -71,8 +72,8 @@ void AABaseCharacter::OnMoveInput(const FInputActionValue& InputActionValue)
 
 void AABaseCharacter::OnLookInput(const FInputActionValue& InputActionValue)
 {
-	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>() * MouseSensitivity;
-
+	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
+	
 	AddControllerYawInput(LookAxisVector.X);
 	AddControllerPitchInput(LookAxisVector.Y);
 }
@@ -88,10 +89,20 @@ void AABaseCharacter::OnFireInput(const FInputActionValue& InputActionValue)
 	}
 }
 
+void AABaseCharacter::OnJumpInput(const FInputActionValue& InputActionValue)
+{
+	GetCharacterMovement()->DoJump(false);
+}
+
 // Called every frame
 void AABaseCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if(CameraComponent)
+	{
+		CameraComponent->SetWorldRotation(FRotator(GetControlRotation()));
+	}
 
 }
 
@@ -114,6 +125,7 @@ void AABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AABaseCharacter::OnMoveInput);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AABaseCharacter::OnLookInput);
 		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &AABaseCharacter::OnFireInput);
+		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Triggered, this, &AABaseCharacter::OnJumpInput);
 	}
 
 }

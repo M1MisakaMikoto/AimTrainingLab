@@ -21,7 +21,7 @@ void UUFireAbility::ActivateAbility(const FGameplayAbilitySpecHandle Handle, con
 
 	if(AAWeaponDefaultRifle* DefaultRifle = Cast<AAWeaponDefaultRifle>(ActorInfo->AvatarActor.Get()))
 	{
-		DefaultRifle->Fire();
+		//DefaultRifle->Fire();
 	}
 	
 }

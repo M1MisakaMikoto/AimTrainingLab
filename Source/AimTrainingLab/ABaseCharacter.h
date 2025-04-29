@@ -27,6 +27,8 @@ protected:
 	void OnLookInput(const FInputActionValue& InputActionValue);
 
 	void OnFireInput(const FInputActionValue& InputActionValue);
+
+	void OnJumpInput(const FInputActionValue& InputActionValue);
 	
 	UPROPERTY(BlueprintReadOnly, Category="AbilitySpecHandles")
 	FGameplayAbilitySpecHandle EquipAbilityHandle;
@@ -75,6 +77,9 @@ public:
 	
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
 	class UInputAction* LookAction;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Input")
+	class UInputAction* JumpAction;
 
 	UPROPERTY(EditAnywhere, Category = "Input")
 	float MouseSensitivity = 1.0f;
